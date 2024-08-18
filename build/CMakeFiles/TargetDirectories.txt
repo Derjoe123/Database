@@ -1,0 +1,3 @@
+/home/jjj/coding/projects/Database/build/CMakeFiles/DB.dir
+/home/jjj/coding/projects/Database/build/CMakeFiles/edit_cache.dir
+/home/jjj/coding/projects/Database/build/CMakeFiles/rebuild_cache.dir
