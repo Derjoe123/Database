@@ -1,0 +1,61 @@
+
+int t = 5 // minimum degree, value depends upon disk block size (normally way more than 5)
+Node{
+    
+    // all leaves need to have the same depth
+    bool leaf
+    
+    // minimum t - 1 keys, except root which has at least 1
+    // stored in increasing order
+    keys[2 * t - 1] 
+    
+    // needs to have at least t children (number of keys + 1)
+    // the child in between keys k1 and k2 stores all the keys in the range k1 to k2
+    children[2 * t]
+}
+
+BalancedTree{
+    
+    // The tree grows and shrinks from the root
+    Node* root
+    
+    (Node*, index) search(key)
+    {
+        Node* current = root
+        while (true) 
+        {
+            if ( key == current.keys[0])
+            {
+                return current.children[0]
+            }
+    
+
+        }
+    }
+    Node* find(Node* node,key)
+    {
+        if(!node || (node && node.leaf))
+            return;
+        for(int i = 0; i < node.childCount;i++)
+        {
+            if(node.keys[i] == key)
+            {
+                return node;
+            }
+            else if (node.keys[i] > key)
+            {
+                return find(node.children[i],key) // recursion
+            }
+        }
+        return find(node.children[node.childCount - 1],key) //  if no key is higher its the last child
+    }
+}
+
+
+[keys]
+[children]
+
+
+   [2]   [6]   [9]    [21]
+[1]   [4]   [8]   [19]    [34]
+
