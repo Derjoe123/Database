@@ -20,7 +20,7 @@ typedef struct {
 } BTree;
 
 size_t BTree_insert(BTree *tree, void *data, size_t dataSize);
-bool BTree_delete(BTree *tree, size_t index);
-BTreeNode *BTree_search(BTreeNode *node, size_t key);
+bool BTree_delete(BTree *tree, size_t key);
+BTreeNode *BTree_search(BTreeNode *startNode, size_t key);
 void BTree_free(BTree *tree);
 void BTree_print(BTree *tree);

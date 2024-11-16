@@ -17,7 +17,7 @@ bool valid_identifier_char(char chr) {
 }
 Token lexer_next(Lexer *lexer) {
     if (!lexer->Initialized) {
-        throwError("Lexer not initialized");
+        throwError("Lexer not initialized, call lexer_init first");
     }
     if (lexer_eof(lexer)) {
         return token_create(TOKEN_EOF, "", 0);
