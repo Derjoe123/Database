@@ -3,7 +3,6 @@
 #include "Token.h"
 #include <ctype.h>
 #include <stdio.h>
-#include <stdlib.h>
 bool valid_identifier_char(char chr) {
     switch (chr) {
     case '_':
@@ -22,15 +21,21 @@ Token lexer_next(Lexer *lexer) {
     if (lexer_eof(lexer)) {
         return token_create(TOKEN_EOF, "", 0);
     }
-    if (isdigit(*lexer->current) && !lexer_eof(lexer)) {
-        Token token = token_create(TOKEN_NUMBER, lexer->current, 1);
+    if ((isdigit(*lexer->current) || *lexer->current == '-') &&
+        !lexer_eof(lexer)) {
+        Token token = token_create(TOKEN_INTEGER, lexer->current, 1);
+        const char *tokenStart = lexer->current;
         bool encounteredDot = false;
+        lexer->current++;
         while (isdigit(*lexer->current) || *lexer->current == '.') {
             if (*lexer->current == '.') {
                 if (encounteredDot) {
+                    throwSyntaxError("%.*s, more than 1 decimal point",
+                                     lexer->current - tokenStart, tokenStart);
                     break;
                 }
                 encounteredDot = true;
+                token = token_create(TOKEN_FLOAT, tokenStart, 1);
             }
             lexer->current++;
         }
@@ -87,12 +92,12 @@ Token lexer_next(Lexer *lexer) {
     }
     case '\'': {
         lexer->current++;
-        Token token = token_create(TOKEN_STRING, lexer->current, 0);
-        while (*lexer->current != '\"' && !lexer_eof(lexer)) {
+        Token token = token_create(TOKEN_RAW_DATA, lexer->current, 0);
+        while (*lexer->current != '\'' && !lexer_eof(lexer)) {
             lexer->current++;
         }
         token.size = lexer->current - token.start;
-        if (*lexer->current == '\"') {
+        if (*lexer->current == '\'') {
             lexer->current++;
             return token;
         }

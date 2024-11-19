@@ -1,5 +1,6 @@
 #include "../Common/Errors.h"
-#include "Lexer.h"
+#include "Parser.h"
+#include <limits.h>
 #include <setjmp.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,17 +18,20 @@ int main(int argc, char **argv) {
         return 1;
     }
     error = true;
-
-    char *input = "SELECT * FROM table";
-    Lexer lexer = {0};
-    lexer_init(&lexer, input, strlen(input));
-    while (!lexer_eof(&lexer)) {
-        Token token = lexer_next(&lexer);
-        if (token.type == TOKEN_ERROR) {
-            lexer_print_error(&lexer, &token);
-            throwError("Invalid Token");
-        }
-        token_print(&token);
-        printf("\n");
+    char *input = "SELECT 123 FROM TABLE \"hello\" \'01\'";
+    Parser parser = {0};
+    parser_init(&parser);
+    ParserSymbol symbols[] = {
+        {.name = "SELECT", .index = 1},
+        {.name = "FROM", .index = 2},
+        {.name = "TABLE", .index = 3},
+    };
+    parser_register_symbols(&parser, symbols,
+                            sizeof(symbols) / sizeof(ParserSymbol));
+    ParsedOpCodes opCodes = parser_parse(&parser, input, strlen(input));
+    printf("%zu opcodes: \n", opCodes.opCodesCount);
+    for (size_t i = 0; i < opCodes.opCodesCount; i++) {
+        printf("%u ", (unsigned int)opCodes.opCodes[i]);
     }
+    printf("\n");
 }

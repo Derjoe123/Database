@@ -8,5 +8,6 @@ typedef struct {
 } Error;
 extern Error globalError;
 void throwError(char *message, ...);
+void throwSyntaxError(char *message, ...);
 #define UNREACHABLE                                                            \
     throwError("Unreachable code reached at %s: %d", __FILE__, __LINE__);

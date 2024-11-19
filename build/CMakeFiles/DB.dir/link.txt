@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wall -Wextra -Werror -pedantic -rdynamic CMakeFiles/DB.dir/src/main.c.o CMakeFiles/DB.dir/src/Lexer.c.o CMakeFiles/DB.dir/src/Token.c.o CMakeFiles/DB.dir/src/Errors.c.o -o DB

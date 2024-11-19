@@ -8,6 +8,8 @@ set(PARSER_SOURCE_FILES
   src/Parser/ParserMain.c
   src/Parser/Lexer.c
   src/Parser/Token.c
+  src/Parser/Parser.c
+  src/Parser/SymbolTree.c
   src/Common/Errors.c)
 
 add_executable(DBParser ${PARSER_SOURCE_FILES})
