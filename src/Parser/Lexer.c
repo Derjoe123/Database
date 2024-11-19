@@ -1,5 +1,5 @@
 #include "Lexer.h"
-#include "Errors.h"
+#include "../Common/Errors.h"
 #include "Token.h"
 #include <ctype.h>
 #include <stdio.h>
